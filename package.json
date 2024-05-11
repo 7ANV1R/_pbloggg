@@ -1,0 +1,14 @@
+{
+  "name": "pbloggg",
+  "version": "1.0.0",
+  "description": "Bloggg website xD",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "7ANV1R",
+  "license": "ISC"
+}
