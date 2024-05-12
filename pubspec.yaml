@@ -1,0 +1,32 @@
+name: pbloggg_app
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.4 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  http: ^1.2.1
+  hooks_riverpod: ^2.5.1
+  flutter_hooks: ^0.20.5
+  go_router: ^14.1.0
+  persistent_bottom_nav_bar_v2: ^4.2.8
+  icons_plus: ^5.0.0
+  gap: ^3.0.1
+  top_snackbar_flutter: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
