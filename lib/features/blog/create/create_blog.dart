@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:io' as io show File;
-import 'package:path/path.dart' as path;
 import 'dart:developer';
-import 'package:flutter_quill/extensions.dart' show isAndroid, isIOS, isWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:path_provider/path_provider.dart' show getApplicationDocumentsDirectory;
+import 'package:pbloggg_app/core/ui_helper/space_helper.dart';
 
 class CreateBlogPage extends StatefulHookConsumerWidget {
   const CreateBlogPage({super.key});
@@ -23,46 +20,33 @@ class _CreateBlogPageState extends ConsumerState<CreateBlogPage> {
   // void initState() {
   //   super.initState();
   //   final jsonData = [
-  //     {"insert": "Simple "},
+  //     {"insert": "Test\n"},
   //     {
-  //       "insert": "Italic ",
-  //       "attributes": {"italic": true}
+  //       "insert": {
+  //         "image":
+  //             "https://jekxsuqvkrbuwalwaijt.supabase.co/storage/v1/object/public/user_image/testagain.jpg"
+  //       },
+  //       "attributes": {"style": "width: 141.53142857142856; height: 308.0388571428571; "}
   //     },
-  //     {
-  //       "insert": "Underline ",
-  //       "attributes": {"italic": true, "underline": true}
-  //     },
-  //     {"insert": "\n"}
+  //     {"insert": "\nTesttt\n"}
   //   ];
 
   //   controller.document = Document.fromJson(jsonData);
   // }
 
-  Future<void> onImageInsertWithCropping(
-    String image,
-    QuillController controller,
-    BuildContext context,
-  ) async {
-    log('onImageInsertWithCropping');
-    if (isWeb()) {
-      controller.insertImageBlock(imageSource: image);
-      return;
-    }
-    final newSavedImage = await saveImage(io.File(image));
-    controller.insertImageBlock(imageSource: newSavedImage);
-  }
+  // Future<void> onImageInsert(
+  //   String image,
+  //   QuillController controller,
+  //   BuildContext context,
+  // ) async {
+  //   log('onImageInsertWithCropping');
+  //   if (isWeb()) {
+  //     controller.insertImageBlock(imageSource: image);
+  //     return;
+  //   }
 
-  Future<String> saveImage(io.File file) async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final fileExt = path.extension(file.path);
-    final newFileName = '${DateTime.now().toIso8601String()}$fileExt';
-    final newPath = path.join(
-      appDocDir.path,
-      newFileName,
-    );
-    final copiedFile = await file.copy(newPath);
-    return copiedFile.path;
-  }
+  //   controller.insertImageBlock(imageSource: image);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -90,27 +74,25 @@ class _CreateBlogPageState extends ConsumerState<CreateBlogPage> {
               hintText: 'Enter title',
             ),
           ),
-          QuillToolbar.simple(
-            configurations: QuillSimpleToolbarConfigurations(
-              controller: controller,
-              embedButtons: FlutterQuillEmbeds.toolbarButtons(
-                imageButtonOptions: QuillToolbarImageButtonOptions(
-                  imageButtonConfigurations: QuillToolbarImageConfigurations(
-                    onImageInsertCallback: isAndroid(supportWeb: false) || isIOS(supportWeb: false) || isWeb()
-                        ? (image, controller) => onImageInsertWithCropping(image, controller, context)
-                        : null,
-                  ),
-                ),
-              ),
-              multiRowsDisplay: false,
-              sharedConfigurations: const QuillSharedConfigurations(
-                locale: Locale('en'),
-              ),
-            ),
-          ),
-          // QuillCustomToolbar(
-          //   controller: controller,
+          // QuillToolbar.simple(
+          //   configurations: QuillSimpleToolbarConfigurations(
+          //     controller: controller,
+          //     embedButtons: FlutterQuillEmbeds.toolbarButtons(
+          //       imageButtonOptions: QuillToolbarImageButtonOptions(
+          //         imageButtonConfigurations: QuillToolbarImageConfigurations(
+          //           onImageInsertCallback: isAndroid(supportWeb: false) || isIOS(supportWeb: false) || isWeb()
+          //               ? (image, controller) => onImageInsert(image, controller, context)
+          //               : null,
+          //         ),
+          //       ),
+          //     ),
+          //     multiRowsDisplay: false,
+          //     showFontFamily: false,
+          //     showHeaderStyle: false,
+          //     showInlineCode: false,
+          //   ),
           // ),
+          QuillCustomToolbar(controller: controller),
           Expanded(
             child: QuillEditor.basic(
               configurations: QuillEditorConfigurations(
@@ -126,7 +108,8 @@ class _CreateBlogPageState extends ConsumerState<CreateBlogPage> {
                 ),
               ),
             ),
-          )
+          ),
+          kGapSpaceM,
         ],
       ),
     );
@@ -152,16 +135,11 @@ class QuillCustomToolbar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.width_normal,
-              ),
-            ),
             QuillToolbarHistoryButton(
               isUndo: true,
               controller: controller,
             ),
+            QuillToolbarFontSizeButton(controller: controller),
             QuillToolbarHistoryButton(
               isUndo: false,
               controller: controller,
