@@ -4,7 +4,7 @@ Trying to build a node backend
 
 ## TODO:
 
-[ ] Storage
+[x] Storage
 [ ] Blog
 [ ] Blog CRUD
 [ ] Auth

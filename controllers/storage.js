@@ -2,13 +2,14 @@ const axios = require("axios");
 const FormData = require("form-data");
 const fs = require("fs");
 
-const CoverUpload = async (req, res, next) => {
+const CoverUpload = async (req, res) => {
   const files = req.files;
   const successfulUploads = [];
   const failedUploads = [];
+  // TODO: successfulUploads should be a map where key will be id and value will be the uploaded file url
 
   if (!files || files.length === 0) {
-    return res.status(400).send("No files were uploaded.");
+    return res.status(400).json({ successfulUploads, failedUploads });
   }
 
   const token = `Bearer ${process.env.SUPABASE_API_KEY}`;
@@ -16,6 +17,7 @@ const CoverUpload = async (req, res, next) => {
   try {
     for (const file of files) {
       try {
+        console.log(file);
         await sendFileToExternalServer(file, token);
         successfulUploads.push(file.originalname);
       } catch (error) {
@@ -32,7 +34,7 @@ const CoverUpload = async (req, res, next) => {
     res.status(200).json({ successfulUploads, failedUploads });
   } catch (error) {
     console.error("An error occurred while uploading files:", error.message);
-    res.status(500).send("An error occurred while uploading files.");
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -49,7 +51,7 @@ const sendFileToExternalServer = async (file, token) => {
   };
 
   const response = await axios.post(supabaseUrl, formData, { headers });
-
+  console.log(`response: ${response}`);
   return response.data;
 };
 
