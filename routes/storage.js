@@ -1,8 +1,8 @@
 const express = require("express");
 const storageRouter = express.Router();
-const handleFormData = require("../middleware/handle_form_data");
+const upload = require("../middleware/upload");
 const Storage = require("../controllers/storage");
 
-storageRouter.post("/cover", handleFormData, Storage.CoverUpload);
+storageRouter.post("/cover", upload.array("files", 10), Storage.CoverUpload);
 
 module.exports = storageRouter;
