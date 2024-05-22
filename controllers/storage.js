@@ -6,7 +6,6 @@ const CoverUpload = async (req, res) => {
   const files = req.files;
   const successfulUploads = [];
   const failedUploads = [];
-  // TODO: successfulUploads should be a map where key will be id and value will be the uploaded file url
 
   if (!files || files.length === 0) {
     return res.status(400).json({ successfulUploads, failedUploads });
@@ -17,9 +16,10 @@ const CoverUpload = async (req, res) => {
   try {
     for (const file of files) {
       try {
-        console.log(file);
-        await sendFileToExternalServer(file, token);
-        successfulUploads.push(file.originalname);
+        const now = new Date().toISOString();
+        console.log(file.originalname);
+        await sendFileToExternalServer(file, token, now);
+        successfulUploads.push(`${now}-${file.originalname}`);
       } catch (error) {
         console.error(`Failed to upload ${file.originalname}:`, error.message);
         failedUploads.push(file.originalname);
@@ -38,10 +38,8 @@ const CoverUpload = async (req, res) => {
   }
 };
 
-const sendFileToExternalServer = async (file, token) => {
-  const supabaseUrl = `${process.env.SUPABASE_BLOG_CONTENT_URL}/${
-    file.originalname
-  }-${Date.now()}`;
+const sendFileToExternalServer = async (file, token, now) => {
+  const supabaseUrl = `${process.env.SUPABASE_BLOG_CONTENT_URL}/${now}-${file.originalname}`;
   const formData = new FormData();
   formData.append("", fs.createReadStream(file.path), file.originalname);
 
