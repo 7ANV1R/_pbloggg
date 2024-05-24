@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'pbloggg',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: const Color(0xFFFFFFD7),
         useMaterial3: true,
       ),
       routerDelegate: appRouter.routerDelegate,
