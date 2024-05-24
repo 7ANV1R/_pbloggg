@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-// Routes
-const blogRouter = require("./blog");
-router.use("/blog", blogRouter);
+// v1
 
-const storageRouter = require("./storage");
-router.use("/storage", storageRouter);
+const v1Route = require("./v1/v1.index");
+router.use("/v1", v1Route);
 
 module.exports = router;

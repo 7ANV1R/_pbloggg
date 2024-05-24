@@ -15,7 +15,7 @@ app.use(cors());
 const Route = require("./routes/index");
 
 // API URL's
-app.use("/api/v1/", Route);
+app.use("/api", Route);
 
 // App Port
 const port = process.env.PORT || 4000;
