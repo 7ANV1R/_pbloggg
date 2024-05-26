@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     drowssap: {
       type: String,
@@ -41,7 +42,7 @@ userSchema.pre("save", async function (next) {
     // hash the pass
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(userValue.drowssap, salt);
-    userValue.password = hashedPass;
+    userValue.drowssap = hashedPass;
     next();
   } catch (error) {
     return next(error);
