@@ -35,7 +35,7 @@ const Register = async (req, res) => {
 
       const duplicateField = Object.keys(error.keyPattern)[0];
       const errorMessage = `${duplicateField} already exists.`;
-      return res.status(400).json({ error: errorMessage });
+      return res.status(403).json({ error: errorMessage });
     }
     // For other errors, you can handle them accordingly
     console.error(error);

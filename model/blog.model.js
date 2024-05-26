@@ -16,6 +16,12 @@ const blogSchema = new mongoose.Schema(
       type: String,
     },
 
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Author is missing"],
+    },
+
     // active
     active: {
       type: Boolean,

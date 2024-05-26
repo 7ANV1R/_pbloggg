@@ -1,4 +1,6 @@
 const Blogs = require("../model/blog.model");
+const Token = require("../model/token.model");
+const jwt = require("jsonwebtoken");
 
 const GetAllBlog = async (req, res) => {
   try {
@@ -12,9 +14,33 @@ const GetAllBlog = async (req, res) => {
 
 const CreateBlog = async (req, res) => {
   try {
-    const item = await Blogs.create(req.body);
-    return res.status(201).json(item);
+    if (!req.token) {
+      return res.status(401).json({
+        error: "Unauthorized! Access token is missing.",
+      });
+    }
+    const fullToken = req.token;
+
+    // decode json token then get the user id
+    const userId = await jwt.verify(fullToken, process.env.JWT_SECRET).userId;
+    // check this token in token db with same userId and same token
+    const userTokenObject = await Token.findOne({ userId, token: fullToken });
+    if (!userTokenObject) {
+      return res.status(403).json({ error: "Invalid token" });
+    }
+    // create blog
+    const newBlog = new Blogs({ ...req.body, author: userId });
+
+    await newBlog.save();
+    return res.status(201).json(_formattedFullBlog(newBlog));
   } catch (error) {
+    console.error(`Error: ${error.code} ${error}`);
+    if (error.name === "ValidationError") {
+      const formattedError = Object.values(error.errors).map(
+        (val) => val.message
+      );
+      return res.status(403).json({ error: `${formattedError.join(", ")}.` });
+    }
     return res.status(500).json({ error: error.message });
   }
 };
