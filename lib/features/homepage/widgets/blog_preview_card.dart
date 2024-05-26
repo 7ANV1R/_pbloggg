@@ -15,7 +15,7 @@ class BlogPreviewCard extends StatelessWidget {
     final text = blogs.title;
     return Column(
       children: [
-        // author row
+        // author and action btn row
         Row(
           children: [
             const CircleAvatar(
@@ -29,7 +29,11 @@ class BlogPreviewCard extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-
+            kGapSpaceS,
+            BlogsDateTimeInfo(
+              timeAgo: blogs.timeAgo,
+              readTime: blogs.readTime,
+            ),
             const Spacer(),
             GestureDetector(
               child: const Icon(
@@ -51,43 +55,30 @@ class BlogPreviewCard extends StatelessWidget {
 
         // title and image row
         kGapSpaceS,
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      text,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: Palette.blackFontColor,
-                      ),
-                    ),
-                    const Spacer(),
-                    kGapSpaceXS,
-                    BlogsDateTimeInfo(
-                      timeAgo: blogs.timeAgo,
-                      readTime: blogs.readTime,
-                    ),
-                  ],
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                "$text\n",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: context.textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: Palette.blackFontColor,
                 ),
               ),
-              const SizedBox(width: 16),
-              Container(
-                width: 16 * 6,
-                height: 9 * 6,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.grey,
-                ),
+            ),
+            kGapSpaceM,
+            Container(
+              width: 16 * 6,
+              height: 9 * 6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.grey,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -98,7 +89,7 @@ class BlogsDateTimeInfo extends StatelessWidget {
   const BlogsDateTimeInfo({
     super.key,
     required this.timeAgo,
-    required this.readTime,
+    this.readTime = "0 min read",
     this.onTapSave,
     this.onTapMore,
   });
@@ -109,14 +100,6 @@ class BlogsDateTimeInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          timeAgo,
-          style: context.textTheme.labelSmall!.copyWith(
-            color: Palette.lightBlackFontColor,
-          ),
-        ),
-        kGapSpaceS,
-
         // small dot
         Container(
           width: 3,
@@ -126,15 +109,22 @@ class BlogsDateTimeInfo extends StatelessWidget {
             shape: BoxShape.circle,
           ),
         ),
-
-        // 8 min read
         kGapSpaceS,
         Text(
-          readTime,
+          timeAgo,
           style: context.textTheme.labelSmall!.copyWith(
             color: Palette.lightBlackFontColor,
           ),
         ),
+
+        // 8 min read
+        // kGapSpaceS,
+        // Text(
+        //   readTime,
+        //   style: context.textTheme.labelSmall!.copyWith(
+        //     color: Palette.lightBlackFontColor,
+        //   ),
+        // ),
       ],
     );
   }

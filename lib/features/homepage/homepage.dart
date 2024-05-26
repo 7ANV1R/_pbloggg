@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -21,13 +22,13 @@ class HomePage extends HookConsumerWidget {
     ));
 
     final tabController = useTabController(initialLength: 6, initialIndex: 0);
-
+    final scrollController = useScrollController();
     return Container(
       color: Palette.darkScaffoldBgColor,
       child: SafeArea(
-        minimum: const EdgeInsets.only(top: kToolbarHeight - 16),
         child: Scaffold(
           body: NestedScrollView(
+            controller: scrollController,
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
@@ -42,7 +43,14 @@ class HomePage extends HookConsumerWidget {
                   ),
                   actions: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // scroll to end
+                        scrollController.animateTo(
+                          scrollController.position.maxScrollExtent,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      },
                       icon: const Icon(
                         EvaIcons.bell_outline,
                         color: Palette.darkBlackFontColor,
@@ -62,13 +70,26 @@ class HomePage extends HookConsumerWidget {
             },
             body: TabBarView(
               controller: tabController,
-              children: const [
-                HomePageLatestBlogs(),
-                HomePageLatestBlogs(),
-                HomePageLatestBlogs(),
-                HomePageLatestBlogs(),
-                HomePageLatestBlogs(),
-                HomePageLatestBlogs(),
+              children: [
+                // TODO: fix scroll position issue when switching tabs
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
+                HomePageLatestBlogs(
+                  key: UniqueKey(),
+                ),
               ],
             ),
           ),
