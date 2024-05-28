@@ -10,6 +10,11 @@ const tokenSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    deviceId: {
+      type: String,
+      required: true,
+      unique: true, // Enforce device ID uniqueness
+    },
   },
   { timestamps: true }
 );

@@ -52,7 +52,7 @@ userSchema.pre("save", async function (next) {
 // compare pass
 userSchema.methods.comparePass = async function (pass) {
   try {
-    return await bcrypt.compare(pass, this.password);
+    return await bcrypt.compare(pass, this.drowssap);
   } catch (error) {
     throw error;
   }
