@@ -22,6 +22,8 @@ migrate_working_dir/
 #.vscode/
 
 # Flutter/Dart/Pub related
+env.json
+debugenv.json
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -42,6 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# env
-debugenv.json
-env.json
+
