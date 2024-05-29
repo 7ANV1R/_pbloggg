@@ -23,15 +23,15 @@ Trying to build a node backend
 
 ## TODO:
 
-[x] Storage
-[x] Blog
-[x] Blog CRUD
-[x] Register
-[x] Redesign auth token db
-[x] Login
-[x] Pagination
-[ ] Logout (remove token)
-[ ] Latest, Trending, Popular..
-[ ] Read count of blog
-[ ] Bookmark (Save, Remove)
-[ ] Semi auth for showing bookmark of user
+[x] Storage <br/>
+[x] Blog <br/>
+[x] Blog CRUD <br/>
+[x] Register <br/>
+[x] Redesign auth token db <br/>
+[x] Login <br/>
+[x] Pagination <br/>
+[ ] Logout (remove token) <br/>
+[ ] Latest, Trending, Popular.. <br/>
+[ ] Read count of blog <br/>
+[ ] Bookmark (Save, Remove) <br/>
+[ ] Semi auth for showing bookmark of user <br/>
