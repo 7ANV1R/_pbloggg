@@ -8,19 +8,48 @@ const GetAllBlog = async (req, res) => {
 
   try {
     const totalBlogs = await Blogs.countDocuments({});
-    const items = await Blogs.find({})
-      .sort({ _id: 1 })
-      .skip((page - 1) * limit)
-      .limit(limit);
+    const blogs = await Blogs.aggregate([
+      { $sort: { _id: 1 } },
+      { $skip: (page - 1) * limit },
+      { $limit: limit },
+      {
+        $lookup: {
+          from: "users", // Name of the users collection
+          localField: "author", // Field in the blogs collection
+          foreignField: "_id", // Field in the users collection
+          as: "authorDetails", // Output array field
+        },
+      },
+      { $unwind: "$authorDetails" }, // Convert array to object
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          cover: { $ifNull: ["$cover", null] },
+          createdAt: 1,
+          updatedAt: 1,
+          authorDetails: {
+            _id: "$authorDetails._id",
+            full_name: "$authorDetails.full_name",
+            email: "$authorDetails.email",
+            cover: { $ifNull: ["$authorDetails.cover", null] },
+          },
+        },
+      },
+      {
+        $addFields: {
+          author: "$authorDetails",
+        },
+      },
+      {
+        $project: {
+          authorDetails: 0,
+        },
+      },
+    ]);
     const nextPage = page < Math.ceil(totalBlogs / limit) ? page + 1 : null;
     const prevPage = page > 1 ? page - 1 : null;
 
-    // const newItem = items.map(_formattedPreviewBlog);
-    const newItem = [];
-    for (const item of items) {
-      const formattedData = await _formattedPreviewBlog(item);
-      newItem.push(formattedData);
-    }
     return res.status(200).json({
       pagination: {
         total: totalBlogs,
@@ -29,7 +58,7 @@ const GetAllBlog = async (req, res) => {
         nextPage: nextPage,
         prevPage: prevPage,
       },
-      data: newItem,
+      data: blogs,
     });
   } catch (error) {
     return res.status(500).send(error.message);

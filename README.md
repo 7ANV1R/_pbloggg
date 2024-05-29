@@ -30,8 +30,8 @@ Trying to build a node backend
 [x] Redesign auth token db <br/>
 [x] Login <br/>
 [x] Pagination <br/>
-[ ] Logout (remove token) <br/>
 [ ] Latest, Trending, Popular.. <br/>
-[ ] Read count of blog <br/>
+[ ] Reading/view count of blog <br/>
 [ ] Bookmark (Save, Remove) <br/>
 [ ] Semi auth for showing bookmark of user <br/>
+[ ] Logout (remove token) <br/>
