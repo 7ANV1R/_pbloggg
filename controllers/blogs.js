@@ -15,7 +15,12 @@ const GetAllBlog = async (req, res) => {
     const nextPage = page < Math.ceil(totalBlogs / limit) ? page + 1 : null;
     const prevPage = page > 1 ? page - 1 : null;
 
-    const newItem = items.map(_formattedPreviewBlog);
+    // const newItem = items.map(_formattedPreviewBlog);
+    const newItem = [];
+    for (const item of items) {
+      const formattedData = await _formattedPreviewBlog(item);
+      newItem.push(formattedData);
+    }
     return res.status(200).json({
       pagination: {
         total: totalBlogs,
@@ -51,7 +56,8 @@ const CreateBlog = async (req, res) => {
     const newBlog = new Blogs({ ...req.body, author: userId });
 
     await newBlog.save();
-    return res.status(201).json(_formattedFullBlog(newBlog));
+    const formattedData = await _formattedFullBlog(newBlog);
+    return res.status(201).json(formattedData);
   } catch (error) {
     console.error(`Error: ${error.code} ${error}`);
     if (error.name === "ValidationError") {
@@ -68,7 +74,9 @@ const GetBlogDetails = async (req, res) => {
   try {
     const item = await Blogs.findById(req.params.id);
     if (item) {
-      return res.status(200).json(_formattedFullBlog(item));
+      const formattedData = await _formattedFullBlog(item);
+
+      return res.status(200).json(formattedData);
     }
     return res.status(404).json({ error: "Aw snap! Blog not found" });
   } catch (error) {
@@ -85,7 +93,8 @@ const UpdateBlog = async (req, res) => {
       return res.status(404).json({ error: "Aw snap! Blog not found" });
     }
     const updatedItem = await Blogs.findById(id);
-    return res.status(200).json(_formattedFullBlog(updatedItem));
+    const formattedData = await _formattedFullBlog(updatedItem);
+    return res.status(200).json(formattedData);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -105,17 +114,27 @@ const DeleteBlog = async (req, res) => {
   }
 };
 
-const _formattedPreviewBlog = (item) => {
+const _formattedPreviewBlog = async (item) => {
+  const User = require("../model/user.model");
+  const author = await User.findById(item.author._id);
   return {
     id: item._id,
     title: item.title ?? "N/A",
     cover: item.cover ?? null,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
+    author: {
+      id: author._id,
+      name: author.full_name,
+      email: author.email,
+      cover: author.cover ?? null,
+    },
   };
 };
 
-const _formattedFullBlog = (item) => {
+const _formattedFullBlog = async (item) => {
+  const User = require("../model/user.model");
+  const author = await User.findById(item.author);
   return {
     id: item._id,
     title: item.title ?? "N/A",
@@ -123,6 +142,12 @@ const _formattedFullBlog = (item) => {
     content: item.content ?? "",
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
+    author: {
+      id: author._id,
+      name: author.full_name,
+      email: author.email,
+      cover: author.cover ?? null,
+    },
   };
 };
 
