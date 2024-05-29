@@ -3,10 +3,29 @@ const Token = require("../model/token.model");
 const jwt = require("jsonwebtoken");
 
 const GetAllBlog = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
   try {
-    const items = await Blogs.find({});
+    const totalBlogs = await Blogs.countDocuments({});
+    const items = await Blogs.find({})
+      .sort({ _id: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const nextPage = page < Math.ceil(totalBlogs / limit) ? page + 1 : null;
+    const prevPage = page > 1 ? page - 1 : null;
+
     const newItem = items.map(_formattedPreviewBlog);
-    return res.status(200).json(newItem);
+    return res.status(200).json({
+      pagination: {
+        total: totalBlogs,
+        currentPage: page,
+        perPage: limit,
+        nextPage: nextPage,
+        prevPage: prevPage,
+      },
+      data: newItem,
+    });
   } catch (error) {
     return res.status(500).send(error.message);
   }
