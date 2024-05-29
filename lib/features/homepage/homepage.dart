@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -70,26 +69,14 @@ class HomePage extends HookConsumerWidget {
             },
             body: TabBarView(
               controller: tabController,
-              children: [
+              children: const [
                 // TODO: fix scroll position issue when switching tabs
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
-                HomePageLatestBlogs(
-                  key: UniqueKey(),
-                ),
+                HomePageLatestBlogs(),
+                HomePageLatestBlogs(),
+                HomePageLatestBlogs(),
+                HomePageLatestBlogs(),
+                HomePageLatestBlogs(),
+                HomePageLatestBlogs(),
               ],
             ),
           ),
@@ -104,3 +91,32 @@ class HomePage extends HookConsumerWidget {
     );
   }
 }
+
+// final testFutureProvider = FutureProvider<String>((ref) async {
+//   await Future.delayed(const Duration(seconds: 2));
+//   return 'Hello, world!';
+// });
+
+// class GGEZ extends StatefulHookConsumerWidget {
+//   const GGEZ({super.key});
+
+//   @override
+//   ConsumerState<ConsumerStatefulWidget> createState() => _GGEZState();
+// }
+
+// class _GGEZState extends ConsumerState<GGEZ> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     _fetchGG();
+//   }
+
+//   Future<void> _fetchGG() async {
+//     final paginationResponse = await ref.read(testFutureProvider.future);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }

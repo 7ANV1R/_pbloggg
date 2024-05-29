@@ -1,28 +1,32 @@
 class BlogPreviewModel {
+  final String id;
   final String title;
-  final String imageUrl;
-  final String timeAgo;
-  final String readTime;
+  final String? cover;
+  final String createdAt;
+  final String updatedAt;
 
   BlogPreviewModel({
+    required this.id,
     required this.title,
-    required this.imageUrl,
-    required this.timeAgo,
-    required this.readTime,
+    this.cover,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  static List<BlogPreviewModel> demoData = [
-    BlogPreviewModel(
-      title: 'How to make a blog in 2022',
-      imageUrl: 'https://images.unsplash.com/photo-1630484163294-4b3b3b3b3b3b',
-      timeAgo: '2 hours ago',
-      readTime: '10 min read',
-    ),
-    BlogPreviewModel(
-      title: 'A big title for a blog post ' * 2,
-      imageUrl: 'https://images.unsplash.com/photo-1630484163294-4b3b3b3b3b3b',
-      timeAgo: '1 hour ago',
-      readTime: '8 min read',
-    ),
-  ];
+  factory BlogPreviewModel.fromJson(Map<String, dynamic> json) {
+    return BlogPreviewModel(
+      id: json['id'],
+      title: json['title'],
+      cover: json['cover'],
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
+    );
+  }
 }
+//  {
+//             "id": "66537108faa408caca20d20f",
+//             "title": "Test Title 3",
+//             "cover": null,
+//             "createdAt": "2024-05-26T17:27:36.601Z",
+//             "updatedAt": "2024-05-26T17:27:36.601Z"
+//         }

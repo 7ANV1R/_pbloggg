@@ -31,8 +31,8 @@ class BlogPreviewCard extends StatelessWidget {
             ),
             kGapSpaceS,
             BlogsDateTimeInfo(
-              timeAgo: blogs.timeAgo,
-              readTime: blogs.readTime,
+              timeAgo: blogs.createdAt,
+              // readTime: blogs.readTime,
             ),
             const Spacer(),
             GestureDetector(
