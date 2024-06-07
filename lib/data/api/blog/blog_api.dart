@@ -39,8 +39,8 @@ class BlogAPI {
         // decode the response body and return the message
         return returnFailure('fetchBlogPosts', decodedResponse['error'], StackTrace.current);
       }
-    } catch (e) {
-      return returnFailure('[BlogAPI][fetchBlogPosts]', e, StackTrace.current);
+    } catch (e, st) {
+      return returnFailure('[BlogAPI][fetchBlogPosts]', e, st);
     }
   }
 }

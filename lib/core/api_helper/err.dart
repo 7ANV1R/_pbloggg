@@ -8,7 +8,7 @@ String getErrorMessage(dynamic e) {
   } else if (e is TypeError) {
     return 'Type Error: Something went wrong!\nErr: ERR414';
   } else {
-    return 'Aw snap: Something went wrong! Type: ${e.runtimeType}\nErr: ERR413';
+    return 'Aw snap: Something went wrong! Type: ${e.runtimeType}\nMessege: $e\nErr: ERR413';
   }
 }
 

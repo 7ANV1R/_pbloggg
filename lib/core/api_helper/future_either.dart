@@ -11,7 +11,7 @@ typedef FutureEitherString = FutureEither<String>;
 typedef FutureEitherInt = FutureEither<int>;
 
 Either<Failure, T> returnFailure<T>(String methodName, Object e, StackTrace st) {
-  Logger.red('[$methodName] Error: $e \nStackTrace: ${st.toString()}');
+  Logger.red('[$methodName] Error: ${getErrorMessage(e)} \nStackTrace: ${st.toString()}');
   return left(
     Failure(
       message: getErrorMessage(e),

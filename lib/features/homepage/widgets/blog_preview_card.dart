@@ -3,6 +3,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:pbloggg_app/core/ui_helper/ui_helper.dart';
 
 import '../../../core/theme/palette.dart';
+import '../../../core/ui_helper/format_time.dart';
 import '../../../core/ui_helper/space_helper.dart';
 import '../../../data/model/blog_preview_model.dart';
 
@@ -23,7 +24,7 @@ class BlogPreviewCard extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'John Doe',
+              blogs.author.fullName,
               style: context.textTheme.labelMedium!.copyWith(
                 color: Palette.blackFontColor,
                 fontWeight: FontWeight.w500,
@@ -31,7 +32,7 @@ class BlogPreviewCard extends StatelessWidget {
             ),
             kGapSpaceS,
             BlogsDateTimeInfo(
-              timeAgo: blogs.createdAt,
+              timeAgo: timeagoFormat(blogs.createdAt),
               // readTime: blogs.readTime,
             ),
             const Spacer(),

@@ -25,6 +25,7 @@ class _HomePageLatestBlogsState extends ConsumerState<HomePageLatestBlogs> {
     });
   }
 
+  // fetch paginated blogs
   Future<void> _fetchBlogs(int pageKey) async {
     try {
       final paginationResponse = await ref.read(allBlogsProvider(pageKey).future);
@@ -45,7 +46,6 @@ class _HomePageLatestBlogsState extends ConsumerState<HomePageLatestBlogs> {
 
   @override
   Widget build(BuildContext context) {
-    // final data = ref.watch(allBlogsProvider(1));
     return PagedListView.separated(
       pagingController: _pagingController,
       padding: const EdgeInsets.all(16),
@@ -62,34 +62,5 @@ class _HomePageLatestBlogsState extends ConsumerState<HomePageLatestBlogs> {
         },
       ),
     );
-    // return data.when(data: (data) {
-    //   return data.fold((l) {
-    //     return Center(
-    //       child: Text(l.message),
-    //     );
-    //   }, (r) {
-    //     return ListView.separated(
-    //       // pagingController: _pagingController,
-    //       itemCount: r.data.length,
-    //       padding: const EdgeInsets.all(16),
-    //       separatorBuilder: (context, index) => Container(
-    //         height: 2,
-    //         margin: const EdgeInsets.symmetric(vertical: 16),
-    //         color: Palette.lightBlackFontColor.withOpacity(0.2),
-    //       ),
-    //       itemBuilder: (context, index) {
-    //         return BlogPreviewCard(blogs: r.data[index]);
-    //       },
-    //     );
-    //   });
-    // }, error: (err, st) {
-    //   return Center(
-    //     child: Text(err.toString()),
-    //   );
-    // }, loading: () {
-    //   return const Center(
-    //     child: CircularProgressIndicator(),
-    //   );
-    // });
   }
 }

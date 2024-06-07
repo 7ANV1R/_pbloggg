@@ -91,32 +91,3 @@ class HomePage extends HookConsumerWidget {
     );
   }
 }
-
-// final testFutureProvider = FutureProvider<String>((ref) async {
-//   await Future.delayed(const Duration(seconds: 2));
-//   return 'Hello, world!';
-// });
-
-// class GGEZ extends StatefulHookConsumerWidget {
-//   const GGEZ({super.key});
-
-//   @override
-//   ConsumerState<ConsumerStatefulWidget> createState() => _GGEZState();
-// }
-
-// class _GGEZState extends ConsumerState<GGEZ> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     _fetchGG();
-//   }
-
-//   Future<void> _fetchGG() async {
-//     final paginationResponse = await ref.read(testFutureProvider.future);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
