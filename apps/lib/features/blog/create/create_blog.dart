@@ -106,9 +106,14 @@ class _CreateBlogPageState extends ConsumerState<CreateBlogPage> {
             TextFormField(
               controller: titleController,
               decoration: const InputDecoration(
+                isDense: true,
                 labelText: 'Title',
                 hintText: 'Enter title',
               ),
+            ),
+            FilledButton(
+              onPressed: () {},
+              child: const Text('Add Cover Image'),
             ),
             // QuillToolbar.simple(
             //   configurations: QuillSimpleToolbarConfigurations(
@@ -135,7 +140,7 @@ class _CreateBlogPageState extends ConsumerState<CreateBlogPage> {
                   controller: controller,
                   embedBuilders: FlutterQuillEmbeds.defaultEditorBuilders(),
                   sharedConfigurations: const QuillSharedConfigurations(
-                    locale: Locale('de'),
+                    locale: Locale('en'),
                     extraConfigurations: {
                       QuillSharedExtensionsConfigurations.key: QuillSharedExtensionsConfigurations(
                         assetsPrefix: 'assets', // Defaults to assets

@@ -6,6 +6,8 @@ import 'package:pbloggg_app/core/ui_helper/ui_helper.dart';
 import 'package:pbloggg_app/features/homepage/homepage.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
+import '../temp/temp_upload.dart';
+
 final GlobalKey<ScaffoldState> mainLayoutScaffoldKey = GlobalKey();
 
 class MainLayoutPage extends StatefulHookConsumerWidget {
@@ -77,7 +79,7 @@ class _MainLayoutPageState extends ConsumerState<MainLayoutPage> {
   List<Widget> _buildScreens() {
     return [
       const HomePage(),
-      const SizedBox(),
+      const TempUpload(),
       const SizedBox(),
       const SizedBox(),
     ];

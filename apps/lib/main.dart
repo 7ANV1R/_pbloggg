@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pbloggg_app/core/const/env_const.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'routes/app_routes.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: EnvConst.supabaseUrl,
+    anonKey: EnvConst.supabaseAnonKey,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
